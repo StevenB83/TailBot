@@ -15,14 +15,14 @@ def getLn(prompt, config, section, option, specific = None, default = False):
             return specific(input)
         else:
             return p != ''
-            
+
     if config.has_option(section, option):
         defValue = config.get(section, option)
     elif default:
         defValue = default
     else:
         defValue = False
-    
+
     if defValue:
         p = raw_input('%s [%s]: ' % (prompt, defValue)).strip()
         if not p:
@@ -30,7 +30,7 @@ def getLn(prompt, config, section, option, specific = None, default = False):
 
     else:
         p = raw_input('%s: ' % (prompt)).strip()
-    
+
     if p:
         if not validate(p):
             print "That doesn't look like the right type of value. Try again?!"
@@ -51,7 +51,7 @@ print "Using configuration file %s" % configFile
 
 if os.path.exists(configFile):
     config.read(configFile)
-    
+
 print "Configuring IRC Connection:"
 add_section(config, 'ircd')
 
@@ -61,10 +61,11 @@ getLn("ssl", config, 'ircd', 'ssl', ['true', 'false'], 'false')
 ssl = config.getboolean('ircd', 'ssl')
 getLn("port", config, 'ircd', 'port', lambda s: s.isdigit(), 6697 if ssl else 6667)
 getLn("nickname", config, 'ircd', 'nickname', default = 'TailBot')
-getLn('channels (seperate with ,)', config, 'ircd', 'channel', lambda s: all([s.startswith('#') for s in s.split(',')]), '#tail')
-print "Files to tail, seperate files with a ';'"
+getLn('channels (seperate with a ,)', config, 'ircd', 'channel', lambda s: all([s.startswith('#') for s in s.split(',')]), '#tail')
+print "Files to tail"
 add_section(config, 'files')
-getLn('files', config, 'files', 'filenames')
+getLn('directory', config, 'files', 'directory', default = os.path.expanduser('~'))
+getLn('files (separate with a ;)', config, 'files', 'filenames')
 
 print "Writing Configuration File",
 config.write(open(configFile, 'wb'))
