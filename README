@@ -1,9 +1,6 @@
-Simple IRC Tailbot written for a friend.
+Simple IRC Tailbot written for a friend. https://github.com/e000/TailBot
 
-Modified by sully to suit my particular purposes:
- - takes the prefix of log file names and switches files when a new
-   file with that prefix is created
- - Reads the file in as utf-16 and emits it as utf-8
- - Filters out some lines and removes timestamps based on a hardcoded
-   pattern
-I may generalize some of this more if I care.
+Modified by sully to suit his particular purposes: https://github.com/msullivan/TailBot
+
+Modified by Steven to suit his particular purpose.
+- Added missing 'directory' config option to ConfigMaker.py + minor changes.
