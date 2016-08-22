@@ -12,9 +12,10 @@ if __name__ == "__main__":
 
     try:
         config = ConfigParser.ConfigParser()
-        config.read(configFile)
+        if not config.read(configFile):
+            raise IOError
     except:
-        print "Config File Not Found! [%s]" % configFile
+        print "Config File Not Found! [%s] Run ConfigMaker.py" % configFile
         os.exit()
 
     try:
@@ -25,7 +26,7 @@ if __name__ == "__main__":
         nickname = config.get('ircd', 'nickname')
         directory = config.get('files', 'directory')
         files = [f.strip() for f in config.get('files', 'filenames').split(';')]
-    except e:
+    except ConfigParser.Error, e:
         print "Invalid Configuration Directives! Run ConfigMaker.py [%s]" % e
         os.exit()
 
